@@ -102,6 +102,7 @@ if __name__ == "__main__":
         x = merge_excel_file(input)
         
         # 输出
+        print('saving ...')
         output_folder = os.mkdir(''.join([path, '/output-', output_time]))
         x[3].to_excel((''.join([path, '/output-', output_time, '/', 'merge_by_col_name_', input, '_', output_time, '.xlsx'])), index=False)
         
