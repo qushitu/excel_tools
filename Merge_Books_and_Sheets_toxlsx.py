@@ -40,7 +40,7 @@ def openfile(oneofitermname, input_path=(''.join([path, '/input/']))):
                 time_cost = '{:.2f}'.format((time.process_time() - start))
 
                 # set invalid line number
-                test_line_num = 64
+                test_line_num = 12
                 df = pd.read_excel(os.path.join(dirpath, filename), nrows=test_line_num, sheet_name=sheet_name, skiprows=0)
                 time_cost = '{:.2f}'.format((time.process_time() - start))
                 print('Sheet', n,  '时间:', time_cost, 'second >>', sheet_name)
@@ -56,12 +56,13 @@ def openfile(oneofitermname, input_path=(''.join([path, '/input/']))):
                         if oneofitermname in col_list:
                             k += 1
                             df = pd.read_excel(os.path.join(dirpath, filename), sheet_name=sheet_name, skiprows=(i))
+                            df['book'], df['sheet'] = filename, sheet_name
                             df_rtn = df_rtn.append(df, ignore_index=True, sort = False)
                             time_cost = '{:.2f}'.format((time.process_time() - start))
                             print('扫描到有效行，添加到df', '时间:', time_cost, 'second')
                             break 
 
-                     # from second row, get the col name list
+                    # from second row, get the col name list
                     if i >= 1:
                         col_list = df.iloc[(i-1):i].values.tolist()
                         col_list = col_list[0]
@@ -69,6 +70,7 @@ def openfile(oneofitermname, input_path=(''.join([path, '/input/']))):
                         if oneofitermname in col_list:
                             k += 1
                             df = pd.read_excel(os.path.join(dirpath, filename), sheet_name=sheet_name, skiprows=(i))
+                            df['book'], df['sheet'] = filename, sheet_name
                             df_rtn = df_rtn.append(df, ignore_index=True, sort = False)
                             time_cost = '{:.2f}'.format((time.process_time() - start))
                             print('扫描到有效行，添加到df', '时间:', time_cost, 'second')
@@ -101,7 +103,7 @@ if __name__ == "__main__":
         
         # 输出
         output_folder = os.mkdir(''.join([path, '/output-', output_time]))
-        x[3].to_excel((''.join([path, '/output-', output_time, '/', 'merge_by_col_name_', input, '.xlsx'])), index=False)
+        x[3].to_excel((''.join([path, '/output-', output_time, '/', 'merge_by_col_name_', input, output_time, '.xlsx'])), index=False)
         
         # 简报
         time_cost = '{:.2f}'.format((time.process_time() - start))
