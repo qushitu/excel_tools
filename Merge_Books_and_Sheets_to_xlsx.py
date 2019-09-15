@@ -113,9 +113,8 @@ if __name__ == "__main__":
         
         # 简报
         time_cost = '{:.2f}'.format((time.process_time() - start))
-        print(''.join(['完成合并，累计读取', str(x[0]), '个BOOKs, ', str(x[1]), '个SHEETs，', str(x[2]) ,'个有效，', '总计：', str(x[3].shape[0]), '行，', str(x[3].shape[1]), '列。', '耗时：', time_cost, '秒，', ' 存储至文件夹：', 'output-', output_time]))
-
-
-        print('\n', 'invalid book and sheet list:') 
+        print(''.join(['完成合并，累计读取', str(x[0]), '个BOOKs, ', str(x[1]), '个SHEETs，', str(x[2]) ,'个有效，', '总计：', str(x[3].shape[0]), '行，', str(x[3].shape[1]), '列。', '耗时：', time_cost, '秒，', ' 存储至文件夹：', 'output-', output_time]), '\n')
+        
+        print('FYI, invalid book and sheet list:') 
         for i in x[4]:
             print(i)
