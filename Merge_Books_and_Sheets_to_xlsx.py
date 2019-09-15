@@ -23,6 +23,8 @@ def merge_excel_file(oneofitermname, input_path=(''.join([path, '/input/']))):
     start = time.process_time()
     df_rtn = pd.DataFrame()
     m, n, k = 0, 0, 0
+    not_list = []
+
     # get file name
     for dirpath, dirnames, filenames in os.walk(input_path):
 
@@ -59,7 +61,7 @@ def merge_excel_file(oneofitermname, input_path=(''.join([path, '/input/']))):
                             df['book'], df['sheet'] = filename, sheet_name
                             df_rtn = df_rtn.append(df, ignore_index=True, sort = False)
                             time_cost = '{:.2f}'.format((time.process_time() - start))
-                            print('扫描到有效行，添加到df', '时间:', time_cost, 'second')
+                            print('扫描到有效表，添加到df', '时间:', time_cost, 'second', '\n')
                             break 
 
                     # from second row, get the col name list
@@ -73,13 +75,16 @@ def merge_excel_file(oneofitermname, input_path=(''.join([path, '/input/']))):
                             df['book'], df['sheet'] = filename, sheet_name
                             df_rtn = df_rtn.append(df, ignore_index=True, sort = False)
                             time_cost = '{:.2f}'.format((time.process_time() - start))
-                            print('扫描到有效行，添加到df', '时间:', time_cost, 'second')
+                            print('扫描到有效表，添加到df', '时间:', time_cost, 'second', '\n')
                             break
                     j += 1
                     print('无效行 >>', j)
+                    if j == len(df):
+                        print('<<<<< Book', filename, 'sheet', sheet_name, '中，未扫描到有效表 >>>>>', '\n')
+                        not_list.append((filename + ' --> ' + sheet_name ))
 
     
-    return  m, n, k, df_rtn
+    return  m, n, k, df_rtn, not_list
 
 
 
@@ -98,7 +103,7 @@ if __name__ == "__main__":
         input = input('please insert a co-col name: ')
         start = time.process_time()
         time_cost = '{:.2f}'.format((time.process_time() - start))
-        print('Start:', time_cost, 'second')
+        print('Start ...', time_cost, 'second')
         x = merge_excel_file(input)
         
         # 输出
@@ -109,3 +114,8 @@ if __name__ == "__main__":
         # 简报
         time_cost = '{:.2f}'.format((time.process_time() - start))
         print(''.join(['完成合并，累计读取', str(x[0]), '个BOOKs, ', str(x[1]), '个SHEETs，', str(x[2]) ,'个有效，', '总计：', str(x[3].shape[0]), '行，', str(x[3].shape[1]), '列。', '耗时：', time_cost, '秒，', ' 存储至文件夹：', 'output-', output_time]))
+
+
+        print('\n', 'invalid book and sheet list:') 
+        for i in x[4]:
+            print(i)
