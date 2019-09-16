@@ -7,7 +7,7 @@ import time
 '''
     1. 循环读取文件夹中excel、sheet，拼接dataframe，以当下时间建立文件夹，并将合并后的文档存储其中；
     2. 输入：建立input文件夹，将被合并excel文件放入其中， 参数填入被合并表格中的一项公共列标题；
-    3. 输出：demo 完成合并：0个BOOKs, 0个 SHEETs，总计：0行，0列。耗时：0.00秒，存储至文件夹：output-11-00-01；
+    3. 输出：完成合并，累计读取0个BOOKs, 0个SHEETs，0个有效，总计：0行，0列。耗时：0.06秒，存储至文件夹：output-09-24-43 
 '''
 
 # main folder path
@@ -61,7 +61,7 @@ def merge_excel_file(oneofitermname, input_path=(''.join([path, '/input/']))):
                             df['book'], df['sheet'] = filename, sheet_name
                             df_rtn = df_rtn.append(df, ignore_index=True, sort = False)
                             time_cost = '{:.2f}'.format((time.process_time() - start))
-                            print('扫描到有效表，添加到df', '时间:', time_cost, 'second', '\n')
+                            print('匹配到有效表，添加到df', '时间:', time_cost, 'second', '\n')
                             break 
 
                     # from second row, get the col name list
@@ -75,12 +75,12 @@ def merge_excel_file(oneofitermname, input_path=(''.join([path, '/input/']))):
                             df['book'], df['sheet'] = filename, sheet_name
                             df_rtn = df_rtn.append(df, ignore_index=True, sort = False)
                             time_cost = '{:.2f}'.format((time.process_time() - start))
-                            print('扫描到有效表，添加到df', '时间:', time_cost, 'second', '\n')
+                            print('匹配到有效表，添加到df', '时间:', time_cost, 'second', '\n')
                             break
                     j += 1
                     print('无效行 >>', j)
                     if j == len(df):
-                        print('<<<<< Book', filename, 'sheet', sheet_name, '中，未扫描到有效表 >>>>>', '\n')
+                        print('<<<<< Book', filename, 'sheet', sheet_name, '中，未匹配到有效表 >>>>>', '\n')
                         not_list.append((filename + ' --> ' + sheet_name ))
 
     
